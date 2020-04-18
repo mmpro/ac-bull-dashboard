@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "target": "es5",
+    "jsx": "react",
+    "module": "esNext",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": false,
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "removeComments": true,
+    "strictNullChecks": false,
+    "outDir": "dist",
+    "lib": [
+      "es6",
+      "es7",
+      "dom"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@helper/*": [ "src/helper/*" ],
+      "@components/*": [ "src/components/*" ],
+      "@root/*": [ "src/*" ],
+    },
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin",
+        "lint": {
+          "validProperties": [ "label" ]
+        }
+      }
+    ]
+  },
+  "exclude": [
+    "dist",
+    "node_modules",
+  ]
+}

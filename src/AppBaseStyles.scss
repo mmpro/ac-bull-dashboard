@@ -1,0 +1,23 @@
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.w30pc {
+    width: 30%;
+}
+.w50pc {
+    width: 50%;
+}
+.w20pc {
+    width: 20%;
+}
+
+.MuiListItem-root.Mui-selected, .MuiListItem-root.Mui-selected:hover {
+    background-color: rgba( 0, 0, 0, 0.2 ) !important;
+}
