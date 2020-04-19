@@ -171,7 +171,7 @@ const config = ( webpackMode ) => {
             historyApiFallback: true,
             port: 9009,
             // to be usable through network
-            host: '0.0.0.0',
+            host: 'local.admiralcloud.com',
             compress: true,
             disableHostCheck: true,
             https: false,
