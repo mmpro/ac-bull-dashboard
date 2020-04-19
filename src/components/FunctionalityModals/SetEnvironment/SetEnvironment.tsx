@@ -6,17 +6,15 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 
 import { OptionsContext } from '../../../context/OptionsContextProvider'
-import PopUpMessage from '@components/PopUpMessage/PopUpMessage'
-import { refreshRates } from '../../../../config/refreshRates'
 
 export interface Props {
     className?: string;
     close: () => void
 }
 
-const SetRefreshRate: React.FC<Props> = ( { className, close } ) => {
-    const { env, refreshInterval, setRefreshInterval } = useContext( OptionsContext )
-    const [ selectedRefreshRate, setSelectedRefreshRate ] = useState( refreshInterval )
+const SetEnvironment: React.FC<Props> = ( { className, close } ) => {
+    const { env, setEnv } = useContext( OptionsContext )
+    const [ selectedEnv, setSelectedEnv ] = useState( env )
 
     const stylez = css`
         background: white;
@@ -39,30 +37,30 @@ const SetRefreshRate: React.FC<Props> = ( { className, close } ) => {
     `
 
     const handleChange = ( event: React.ChangeEvent<{ value: string }> ) => {
-        setSelectedRefreshRate( parseInt( event.target.value ) as number )
+        setSelectedEnv( event.target.value as 'live' | 'dev' )
     }
 
     const handleConfirm = () => {
-        setRefreshInterval( selectedRefreshRate )
+        setEnv( selectedEnv )
         close()
     }
 
     return (
         <div className={ cx( className, stylez ) }>
             <div className='description'>
-                Refresh list every:
+                Set Environment to:
             </div>
             <FormControl>
-                <InputLabel id='demo-simple-select-label'>Refresh Rate</InputLabel>
+                <InputLabel id='demo-simple-select-label'>Environment</InputLabel>
                 <Select
                   labelId='demo-simple-select-label'
                   id='demo-simple-select'
-                  value={ selectedRefreshRate }
+                  value={ selectedEnv }
                   onChange={ handleChange }
                 >
                     {
-                        refreshRates.map( refreshRate => (
-                            <MenuItem key={ refreshRate } value={ refreshRate }>{ refreshRate / 1000 } seconds</MenuItem>
+                        [ 'dev', 'live' ].map( environment => (
+                            <MenuItem key={ environment } value={ environment }>{ environment }</MenuItem>
                         ) )
                     }
                 </Select>
@@ -75,4 +73,4 @@ const SetRefreshRate: React.FC<Props> = ( { className, close } ) => {
     )
 }
 
-export default SetRefreshRate
+export default SetEnvironment

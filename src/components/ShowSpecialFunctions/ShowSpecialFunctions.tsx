@@ -4,8 +4,11 @@ import Popover from '@material-ui/core/Popover'
 import SettingsIcon from '@material-ui/icons/Settings'
 import Button from '@material-ui/core/Button'
 
+import { autoDecideEnv } from '../../api/helper/autoDecideEnv'
+
 import DeleteWholeJobListEntries from '@components/FunctionalityModals/DeleteWholeJobListEntries/DeleteWholeJobListEntries'
 import SetRefreshRate from '@components/FunctionalityModals/SetRefreshRate/SetRefreshRate'
+import SetEnvironment from '@components/FunctionalityModals/SetEnvironment/SetEnvironment'
 
 import Modal from '@components/Modal/Modal'
 import PopUpMessage from '@components/PopUpMessage/PopUpMessage'
@@ -79,17 +82,21 @@ const ShowSpecialFunctions: React.FC<Props> = ( { className } ) => {
                             Set Refresh Rate
                         </Button>
                     </div>
-                    {/* <div>
-                        <Button onClick={ () => {
-                            setAnchorEl( null )
-                            setShowOption( 'selectEnv' )
-                        } }
-                        >
-                            Select Env
-                        </Button>
-                    </div> */}
                     {
-                        env === 'dev' && (
+                        autoDecideEnv() === 'dev' && (
+                            <div>
+                                <Button onClick={ () => {
+                                    setAnchorEl( null )
+                                    setShowOption( 'selectEnv' )
+                                } }
+                                >
+                                    Select Env
+                                </Button>
+                            </div>
+                        )
+                    }
+                    {
+                        autoDecideEnv() === 'dev' && (
                             <div>
                                 <Button onClick={ () => {
                                     simulateJob( env )
@@ -116,13 +123,13 @@ const ShowSpecialFunctions: React.FC<Props> = ( { className } ) => {
                     />
                 )
             }
-            {/* {
+            {
                 showOption === 'selectEnv' && (
                     <PopUpMessage
-                      message={ <DeleteWholeJobListEntries close={ () => setShowOption( '' ) } /> }
+                      message={ <SetEnvironment close={ () => setShowOption( '' ) } /> }
                     />
                 )
-            } */}
+            }
         </div>
     )
 }
