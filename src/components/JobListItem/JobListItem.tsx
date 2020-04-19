@@ -31,11 +31,7 @@ const JobListItem: React.FC<Props> = ( {
     index,
     style,
 } ) => {
-    const itemRef = useRef( null )
-    const { heights, setHeight, listRef } = useContext( DataHeightsContext )
-    const [ open, setOpen ] = useState( heights[ index ] )
     const { shownData } = useContext( DataContext )
-
     const {
         status,
         jobList,
@@ -47,19 +43,25 @@ const JobListItem: React.FC<Props> = ( {
         finishedOn,
         data: jobdata,
     } = shownData[ index ]
+    const itemRef = useRef( null )
+    const { heights, setHeight, listRef } = useContext( DataHeightsContext )
+    const [ open, setOpen ] = useState( heights[ jobId ] )
 
     useEffect( () => {
-        setHeight( index, open && itemRef.current.offsetHeight )
+        setHeight( jobId, open && itemRef.current.offsetHeight )
         listRef.current.resetAfterIndex( 0 )
         // eslint-disable-next-line
     }, [ open ] )
 
+    useEffect( () => {
+        listRef.current.resetAfterIndex( 0 )
+        setOpen( heights[ jobId ] )
+    }, [ heights, jobId, listRef, shownData ] )
+
     const handleClick = () => {
         if ( open ) {
-            console.log( 'close' )
             handleClose()
         } else {
-            console.log( 'open' )
             handleOpen()
         }
     }
@@ -154,8 +156,6 @@ const JobListItem: React.FC<Props> = ( {
         }
 
     `
-
-    console.log( moment.duration( processedOn - timestamp ).milliseconds() )
 
     const renderStatus = () => {
         return (

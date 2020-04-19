@@ -5,10 +5,11 @@ import SettingsIcon from '@material-ui/icons/Settings'
 import Button from '@material-ui/core/Button'
 
 import DeleteWholeJobListEntries from '@components/FunctionalityModals/DeleteWholeJobListEntries/DeleteWholeJobListEntries'
+import SetRefreshRate from '@components/FunctionalityModals/SetRefreshRate/SetRefreshRate'
 
 import Modal from '@components/Modal/Modal'
 import PopUpMessage from '@components/PopUpMessage/PopUpMessage'
-import { EnvContext } from '@root/context/EnvContextProvider'
+import { OptionsContext } from '@root/context/OptionsContextProvider'
 import { simulateJob } from '@root/api/calls/simulateJob'
 
 export interface Props {
@@ -18,7 +19,7 @@ export interface Props {
 const ShowSpecialFunctions: React.FC<Props> = ( { className } ) => {
     const [ anchorEl, setAnchorEl ] = React.useState<HTMLButtonElement | null>( null )
     const [ showOption, setShowOption ] = useState( '' )
-    const { env } = useContext( EnvContext )
+    const { env } = useContext( OptionsContext )
 
     const handleClick = ( event: React.MouseEvent<HTMLButtonElement> ) => {
         setAnchorEl( event.currentTarget )
@@ -69,6 +70,15 @@ const ShowSpecialFunctions: React.FC<Props> = ( { className } ) => {
                             Remove Joblist Entries
                         </Button>
                     </div>
+                    <div>
+                        <Button onClick={ () => {
+                            setAnchorEl( null )
+                            setShowOption( 'setRefreshRate' )
+                        } }
+                        >
+                            Set Refresh Rate
+                        </Button>
+                    </div>
                     {/* <div>
                         <Button onClick={ () => {
                             setAnchorEl( null )
@@ -96,6 +106,13 @@ const ShowSpecialFunctions: React.FC<Props> = ( { className } ) => {
                 showOption === 'deleteJobList' && (
                     <PopUpMessage
                       message={ <DeleteWholeJobListEntries close={ () => setShowOption( '' ) } /> }
+                    />
+                )
+            }
+            {
+                showOption === 'setRefreshRate' && (
+                    <PopUpMessage
+                      message={ <SetRefreshRate close={ () => setShowOption( '' ) } /> }
                     />
                 )
             }

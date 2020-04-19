@@ -1,21 +1,17 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { css, cx } from 'emotion'
-import axios from 'axios'
 
 import { getJobs } from '../../api/calls/getJobs'
-import { simulateJob } from '../../api/calls/simulateJob'
 
 import { DataContext } from '../../context/DataContextProvider'
-import { EnvContext } from '../../context/EnvContextProvider'
-
-import { authStore } from 'ac-app-authenticator'
+import { OptionsContext } from '../../context/OptionsContextProvider'
 
 export interface Props {
     className?: string;
 }
 
 const JobListRequester: React.FC<Props> = ( { className } ) => {
-    const { env } = useContext( EnvContext )
+    const { env, refreshInterval } = useContext( OptionsContext )
     const { setData } = useContext( DataContext )
 
     const requestJobs = useCallback( () => {
@@ -36,9 +32,9 @@ const JobListRequester: React.FC<Props> = ( { className } ) => {
         requestJobs()
         const interval = setInterval( () => {
             requestJobs()
-        }, 3000 )
+        }, refreshInterval )
         return () => clearInterval( interval )
-    }, [ requestJobs, setData ] )
+    }, [ refreshInterval, requestJobs, setData ] )
 
     const stylez = css``
 

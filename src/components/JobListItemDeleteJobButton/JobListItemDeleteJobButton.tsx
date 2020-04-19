@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { css, cx } from 'emotion'
 import { Close } from '@material-ui/icons'
 
-import { EnvContext } from '../../context/EnvContextProvider'
+import { OptionsContext } from '../../context/OptionsContextProvider'
 
 import { deleteJob } from '../../api/calls/deleteJob'
 import { colors } from '../../../config/colors'
@@ -19,7 +19,7 @@ export interface Props {
 const JobListItemDeleteJobButton: React.FC<Props> = ( { className, status, jobId, jobList } ) => {
     const [ deletionPending, setDeletionPending ] = useState( false )
     const [ deletionError, setDeletionError ] = useState( false )
-    const { env } = useContext( EnvContext )
+    const { env } = useContext( OptionsContext )
     const [ showPop, setShowPop ] = useState( false )
 
     const stylez = css`

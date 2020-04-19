@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import { css, cx } from 'emotion'
 import { VariableSizeList as List } from 'react-window'
+import { keyBy as lodashKeyBy } from 'lodash-es'
 
 import { DataContext } from '../../context/DataContextProvider'
 import JobListItem from '@components/JobListItem/JobListItem'
 
 export const DataHeightsContext = React.createContext( {
     heights: {},
-    setHeight: ( ( index, height ) => null ) as ( ( index: number, height: number ) => void ),
+    setHeight: ( ( jobId, height ) => null ) as ( ( jobId: string, height: number ) => void ),
     listRef: null,
 } )
 
@@ -22,13 +23,14 @@ const JobList: React.FC<Props> = ( { className } ) => {
     const [ heights, setHeights ] = useState( {} )
 
     const getSize = ( index ) => {
-        return heights[ index ] || 70
+        const jobId = shownData[ index ].jobId
+        return heights[ jobId ] || 70
     }
 
-    const setHeight = ( index, height ) => {
+    const setHeight = ( jobId, height ) => {
         setHeights( {
             ...heights,
-            [ index ]: height,
+            [ jobId ]: height,
         } )
     }
 

@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button'
 
 import { deleteJob } from '../../../api/calls/deleteJob'
 import { DataContext } from '../../../context/DataContextProvider'
-import { EnvContext } from '../../../context/EnvContextProvider'
+import { OptionsContext } from '../../../context/OptionsContextProvider'
 import PopUpMessage from '@components/PopUpMessage/PopUpMessage'
 
 export interface Props {
@@ -18,7 +18,7 @@ export interface Props {
 
 const DeleteWholeJobListEntries: React.FC<Props> = ( { className, close } ) => {
     const { availableJobLists } = useContext( DataContext )
-    const { env } = useContext( EnvContext )
+    const { env } = useContext( OptionsContext )
     const [ selectedJobList, setSelectedJobList ] = useState( '' )
     const [ showConfirm, setShowConfirm ] = useState( false )
 

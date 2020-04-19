@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { css, cx } from 'emotion'
 import { Replay } from '@material-ui/icons'
 
-import { EnvContext } from '../../context/EnvContextProvider'
+import { OptionsContext } from '../../context/OptionsContextProvider'
 
 import { restartJob } from '../../api/calls/restartJob'
 
@@ -14,7 +14,7 @@ export interface Props {
 }
 
 const JobListItemRestartJobButton: React.FC<Props> = ( { className, jobList, jobId, status } ) => {
-    const { env } = useContext( EnvContext )
+    const { env } = useContext( OptionsContext )
 
     const handleRestart = () => {
         status === 'failed' && restartJob( env, jobList, jobId )

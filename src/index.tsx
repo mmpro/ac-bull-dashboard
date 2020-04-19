@@ -1,9 +1,9 @@
 import React from 'react'
 import { render } from 'react-dom'
 
-import EnvContextProvider from './context/EnvContextProvider'
+import OptionsContextProvider from './context/OptionsContextProvider'
 
 import App from './APP'
 import './AppBaseStyles.scss'
 
-render( <EnvContextProvider><App /></EnvContextProvider>, document.getElementById( 'root' ) )
+render( <OptionsContextProvider><App /></OptionsContextProvider>, document.getElementById( 'root' ) )

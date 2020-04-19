@@ -6,7 +6,7 @@ import { simulateJob } from './api/calls/simulateJob'
 
 import JobList from './components/JobList/JobList'
 import DataContextProvider from './context/DataContextProvider'
-import { EnvContext } from './context/EnvContextProvider'
+import { OptionsContext } from './context/OptionsContextProvider'
 import FilterContextProvider from './context/FilterContextProvider'
 import JobListRequester from './components/JobListRequester/JobListRequester'
 import JobListSelectionsJobList from './components/JobListSelections/JobListSelectionsJobList/JobListSelectionsJobList'
@@ -27,7 +27,7 @@ export interface Props {
 }
 
 const App: React.FC<Props> = ( { className } ) => {
-    const { env } = useContext( EnvContext )
+    const { env } = useContext( OptionsContext )
     const [ authorized, setAuthorized ] = useState( false )
 
     useEffect( () => {
