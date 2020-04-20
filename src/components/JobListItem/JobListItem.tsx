@@ -44,22 +44,21 @@ const JobListItem: React.FC<Props> = ( {
         data: jobdata,
     } = shownData[ index ]
     const itemRef = useRef( null )
-    const { heights, setHeight, listRef } = useContext( DataHeightsContext )
-    const [ open, setOpen ] = useState( heights[ jobId ] )
+    const { listRef, itemDataState, updateItem } = useContext( DataHeightsContext )
+    const [ isOpen, setIsOpen ] = useState( itemDataState[ jobId ]?.isOpen )
 
     useEffect( () => {
-        setHeight( jobId, open && itemRef.current.offsetHeight )
-        listRef.current.resetAfterIndex( 0 )
-        // eslint-disable-next-line
-    }, [ open ] )
-
-    useEffect( () => {
-        listRef.current.resetAfterIndex( 0 )
-        setOpen( heights[ jobId ] )
-    }, [ heights, jobId, listRef, shownData ] )
+        if ( itemDataState[ jobId ]?.height !== itemRef.current.offsetHeight ) {
+            updateItem( jobId, {
+                height: itemRef.current.offsetHeight,
+                isOpen,
+            } )
+            listRef.current.resetAfterIndex( index )
+        }
+    }, [ jobId, listRef, isOpen, itemDataState, updateItem, index ] )
 
     const handleClick = () => {
-        if ( open ) {
+        if ( isOpen ) {
             handleClose()
         } else {
             handleOpen()
@@ -67,11 +66,11 @@ const JobListItem: React.FC<Props> = ( {
     }
 
     const handleOpen = () => {
-        setOpen( true )
+        setIsOpen( true )
     }
 
     const handleClose = () => {
-        setOpen( false )
+        setIsOpen( false )
     }
 
     const stylez = css`
@@ -84,6 +83,7 @@ const JobListItem: React.FC<Props> = ( {
         border-bottom: 2px solid rgba( 0,0,0,0.3 );
 
         .basic_content {
+            position: relative;
             height: 70px;
             display: flex;
             justify-content: center;
@@ -117,8 +117,6 @@ const JobListItem: React.FC<Props> = ( {
             font-size: 1.3rem;
             padding: 0 132px 0 32px;
             text-align: left;
-            /* background-color: red; */
-            /* padding-right: 132px; */
         }
 
         .lower_row {
@@ -163,10 +161,14 @@ const JobListItem: React.FC<Props> = ( {
         )
     }
 
+    console.log( 'render' )
+
     return (
         <div key={ jobId } className={ cx( stylez ) } style={ style }>
             { renderStatus() }
             <div className='content' ref={ itemRef }>
+                <div className='x'>hello</div>
+                <div className='x'>hello</div>
                 <div className='basic_content' onClick={ handleClick }>
                     <div className='basic_content_inner'>
                         <div className='upper_row'>
@@ -196,7 +198,7 @@ const JobListItem: React.FC<Props> = ( {
                     </div>
                 </div>
                 {
-                    open && (
+                    isOpen && (
                         <div className='extra_content'>
                             <TableContainer component={ Paper }>
                                 <Table size='small' aria-label='a dense table'>
@@ -230,4 +232,4 @@ const JobListItem: React.FC<Props> = ( {
     )
 }
 
-export default JobListItem
+export default React.memo( JobListItem )

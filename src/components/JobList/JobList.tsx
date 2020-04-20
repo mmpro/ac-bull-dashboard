@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useRef, useContext } from 'react'
+import React, { useState, useEffect, useRef, useContext, useCallback } from 'react'
 import { css, cx } from 'emotion'
 import { VariableSizeList as List } from 'react-window'
-import { keyBy as lodashKeyBy } from 'lodash-es'
 
 import { DataContext } from '../../context/DataContextProvider'
 import JobListItem from '@components/JobListItem/JobListItem'
 
 export const DataHeightsContext = React.createContext( {
-    heights: {},
-    setHeight: ( ( jobId, height ) => null ) as ( ( jobId: string, height: number ) => void ),
+    updateItem: ( ( jobId, options ) => null ) as ( ( jobId: string, options: { height?: number, isOpen?: boolean } ) => void ),
+    itemDataState: {},
     listRef: null,
 } )
 
@@ -20,19 +19,28 @@ const JobList: React.FC<Props> = ( { className } ) => {
     const listWrapperRef = useRef( null )
     const listRef = useRef( null )
     const { shownData } = useContext( DataContext )
-    const [ heights, setHeights ] = useState( {} )
+    const [ itemDataState, setItemDataState ] = useState( {} )
 
     const getSize = ( index ) => {
         const jobId = shownData[ index ].jobId
-        return heights[ jobId ] || 70
+        return itemDataState[ jobId ]?.height || 70
     }
 
-    const setHeight = ( jobId, height ) => {
-        setHeights( {
-            ...heights,
-            [ jobId ]: height,
+    const updateItem = useCallback( ( jobId, options ) => {
+        const newState = { ...itemDataState[ jobId ] }
+
+        const { height, isOpen } = options
+        if ( height ) {
+            newState.height = height
+        }
+        if ( isOpen ) {
+            newState.isOpen = isOpen
+        }
+        setItemDataState( {
+            ...itemDataState,
+            [ jobId ]: newState,
         } )
-    }
+    }, [ itemDataState ] )
 
     const stylez = css`
 
@@ -73,7 +81,13 @@ const JobList: React.FC<Props> = ( { className } ) => {
 
     return (
         <div ref={ listWrapperRef } className={ cx( className, stylez ) }>
-            <DataHeightsContext.Provider value={ { heights, setHeight, listRef } }>
+            <DataHeightsContext.Provider
+              value={ {
+                  itemDataState,
+                  updateItem,
+                  listRef,
+              } }
+            >
                 <div className='list_wrapper'>
                     <div className='legend'>
                         <div className='inline w30pc title_job_list_updated_at'>
