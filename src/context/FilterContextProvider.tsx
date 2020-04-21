@@ -1,5 +1,7 @@
 import React, { useState, useContext, useCallback } from 'react'
 import { DataContext } from './DataContextProvider'
+import { searchConfig } from '../../config/search'
+import { get as lodashGet } from 'lodash-es'
 
 export interface Props {
     className?: string;
@@ -9,8 +11,15 @@ export interface Props {
 type FilterKeysType = {
     jobListFilter?: string[],
     statusFilter?: string[],
-    customerFilter?: string[],
-    mcFilter?: string[],
+    customerSearch?: string[],
+    mcSearch?: string[],
+    search?: string
+}
+
+const searchRegExpArray = []
+
+for ( const [ key, val ] of Object.entries( searchConfig ) ) {
+    searchRegExpArray.push( { regExp: new RegExp( `^${ val.prefix }\\d+$` ), filterKey: key, prefixRegExp: new RegExp( `^${ val.prefix }` ), dataPath: val.jobDataPath } )
 }
 
 export const FilterContext = React.createContext( {
@@ -22,11 +31,11 @@ const FilterContextProvider: React.FC<Props> = ( { children } ) => {
 
     const [ jobListFilterState, setJobListFilterState ] = useState( [] )
     const [ statusFilterState, setStatusFilterState ] = useState( [] )
-    const [ customerFilterState, setCustomerFilterState ] = useState( [] )
-    const [ mcFilterState, setMcFilterState ] = useState( [] )
+    const [ searchState, setSearchState ] = useState( '' )
 
     const setFilter = useCallback( ( filterData: FilterKeysType ) => {
-        const { jobListFilter, statusFilter, customerFilter, mcFilter } = filterData
+        const { jobListFilter, statusFilter, search = '' } = filterData
+        // const { jobListFilter, statusFilter, customerSearch, mcSearch, search = '' } = filterData
 
         let newData = [ ...data ]
 
@@ -52,42 +61,36 @@ const FilterContextProvider: React.FC<Props> = ( { children } ) => {
             newData = newData.filter( nD => statusFilterState.includes( nD.status ) )
         }
 
-        // CUSTOMER FILTERING
-        if ( customerFilter ) {
-            setCustomerFilterState( customerFilter )
-        }
-
-        if ( customerFilter && customerFilter.length ) {
-            newData = newData.filter( ( nD ) => {
-                const customerId = `${ nD.data?.customerId || '' }`
-                return customerId && customerFilter.includes( customerId )
+        // SEARCH
+        if ( search.trim() ) {
+            setSearchState( search.trim() )
+            const searchParts = search.split( ',' ).map( s => s.trim() )
+            searchParts.forEach( ( searchPart ) => {
+                searchRegExpArray.forEach( ( searchRegExp ) => {
+                    if ( searchPart.match( searchRegExp.regExp ) ) {
+                        newData = newData.filter( ( nD ) => {
+                            const targetValue = lodashGet( nD, searchRegExp.dataPath )
+                            return targetValue === searchPart.replace( searchRegExp.prefixRegExp, '' )
+                        } )
+                    }
+                } )
             } )
-        } else if ( !customerFilter && customerFilterState.length ) {
-            newData = newData.filter( ( nD ) => {
-                const customerId = `${ nD.data?.customerId || '' }`
-                return customerId && customerFilterState.includes( customerId )
-            } )
-        }
-
-        // MC FILTERING
-        if ( mcFilter ) {
-            setMcFilterState( mcFilter )
-        }
-
-        if ( mcFilter && mcFilter.length ) {
-            newData = newData.filter( ( nD ) => {
-                const mcId = `${ nD.data?.mediaContainerId || '' }`
-                return mcId && mcFilter.includes( mcId )
-            } )
-        } else if ( !mcFilter && mcFilterState.length ) {
-            newData = newData.filter( ( nD ) => {
-                const mcId = `${ nD.data?.mediaContainerId || '' }`
-                return mcId && mcFilterState.includes( mcId )
+        } else if ( searchState ) {
+            const searchParts = searchState.split( ',' ).map( s => s.trim() )
+            searchParts.forEach( ( searchPart ) => {
+                searchRegExpArray.forEach( ( searchRegExp ) => {
+                    if ( searchPart.match( searchRegExp.regExp ) ) {
+                        newData = newData.filter( ( nD ) => {
+                            const targetValue = lodashGet( nD, searchRegExp.dataPath )
+                            return `${ targetValue }` === searchPart.replace( searchRegExp.prefixRegExp, '' )
+                        } )
+                    }
+                } )
             } )
         }
 
         setShownData( newData )
-    }, [ customerFilterState, data, jobListFilterState, mcFilterState, setShownData, statusFilterState ] )
+    }, [ data, jobListFilterState, searchState, setShownData, statusFilterState ] )
 
     return (
         <FilterContext.Provider value={ {

@@ -5,29 +5,24 @@ import SearchIcon from '@material-ui/icons/Search'
 import TextField from '@material-ui/core/TextField'
 
 import { FilterContext } from '../../context/FilterContextProvider'
+import { searchConfig } from '../../../config/search'
 
 export interface Props {
     className?: string;
 }
 
-const customerSearchRegExp = new RegExp( /^c\d+$/ )
-const mcSearchRegExp = new RegExp( /^mc\d+$/ )
+const searchRegExpArray = []
+
+for ( const [ key, val ] of Object.entries( searchConfig ) ) {
+    searchRegExpArray.push( { regExp: new RegExp( `^${ val.prefix }\\d+$` ), filterKey: key, prefixRegExp: new RegExp( `^${ val.prefix }` ) } )
+}
 
 const Search: React.FC<Props> = ( { className } ) => {
     const { setFilter } = useContext( FilterContext )
 
     const handleSearch = ( e ) => {
         const currentValue = e.target.value
-        if ( currentValue.match( customerSearchRegExp ) ) {
-            setFilter( { customerFilter: [ currentValue.replace( /^c/, '' ) ] } )
-        } else {
-            setFilter( { customerFilter: [] } )
-        }
-        if ( currentValue.match( mcSearchRegExp ) ) {
-            setFilter( { mcFilter: [ currentValue.replace( /^mc/, '' ) ] } )
-        } else {
-            setFilter( { mcFilter: [] } )
-        }
+        setFilter( { search: currentValue } )
     }
 
     const stylez = css`
