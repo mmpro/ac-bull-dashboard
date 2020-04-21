@@ -34,7 +34,7 @@ const FilterContextProvider: React.FC<Props> = ( { children } ) => {
     const [ searchState, setSearchState ] = useState( '' )
 
     const setFilter = useCallback( ( filterData: FilterKeysType ) => {
-        const { jobListFilter, statusFilter, search = '' } = filterData
+        const { jobListFilter, statusFilter, search } = filterData
         // const { jobListFilter, statusFilter, customerSearch, mcSearch, search = '' } = filterData
 
         let newData = [ ...data ]
@@ -62,7 +62,7 @@ const FilterContextProvider: React.FC<Props> = ( { children } ) => {
         }
 
         // SEARCH
-        if ( search.trim() ) {
+        if ( search !== undefined ) {
             setSearchState( search.trim() )
             const searchParts = search.split( ',' ).map( s => s.trim() )
             searchParts.forEach( ( searchPart ) => {
