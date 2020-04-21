@@ -103,8 +103,8 @@ const JobList: React.FC<Props> = ( { className } ) => {
                 <div className='list_wrapper'>
                     <div className='legend'>
                         <div className='inline w20pc title_job_list_updated_at'>
-                            <div className='upper title_job_list'>Job List</div>
-                            <div className='mid title_job_type'>Job Type</div>
+                            <div className='upper title_job_list'>Job Type</div>
+                            <div className='mid title_job_type'>Job List</div>
                             <div className='lower title_updated_at'>Last Updated At</div>
                         </div>
                         <div className='inline w40pc title_job_list_updated_at'>
@@ -113,13 +113,13 @@ const JobList: React.FC<Props> = ( { className } ) => {
                             <div className='lower title_priority'>Attempts | Priority | Status-Text</div>
                         </div>
                         <div className='inline w20pc title_job_list_updated_at'>
-                            <div className='upper title_customer'>Customer Id</div>
+                            <div className='upper title_customer'>Customer</div>
                             <div className='mid hacky_space'>-</div>
                             <div className='lower title_worker'>Worker</div>
                         </div>
                         <div className='inline w20pc title_job_list_updated_at'>
-                            <div className='upper title_customer'>MCId | MediaId</div>
-                            <div className='mid title_format_id'>Format Id</div>
+                            <div className='upper title_customer'>MC | Media</div>
+                            <div className='mid title_format_id'>Format</div>
                             <div className='lower '>Media Title</div>
                         </div>
                     </div>

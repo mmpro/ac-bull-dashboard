@@ -184,20 +184,20 @@ const JobListItem: React.FC<Props> = ( {
                 <div className='basic_content' onClick={ handleClick }>
                     <div className='basic_content_inner'>
                         <div className='upper_row'>
-                            <div className='w20pc inline job_title'>{ jobList }</div>
+                            <div className='w20pc inline job_title'>{ jobdata?.type }</div>
                             <div className='w40pc inline job_id'>{ jobId }</div>
                             <div className='w20pc inline customer_id'>{ jobdata?.customerId || '-' }</div>
                             <div className='w20pc inline customer_id'>{ jobdata?.mediaContainerId || '-' } | { jobdata?.mediaId || '-' }</div>
                         </div>
                         <div className='mid_row'>
-                            <div className='w20pc inline job_type'>{ jobdata?.type }</div>
+                            <div className='w20pc inline job_type'>{ jobdata?.type !== jobList ? jobList : '' }</div>
                             <div className='w40pc inline' />
                             <div className='w20pc inline worker'>{ }</div>
                             <div className='w20pc inline worker'>{ jobdata?.format?.id }</div>
                         </div>
                         <div className='lower_row'>
-                            <div className='w20pc inline last_updated'>{ moment( Math.max( timestamp, processedOn, finishedOn ) ).format( 'HH:mm:ss - DD.MM.YY' ) }</div>
-                            <div className='w40pc inline prio'>{ opts.attempts || '-' } | { priority } | { jobdata?.statusText || '-' }</div>
+                            <div className='w20pc inline last_updated'>{ moment( Math.max( timestamp, processedOn, finishedOn ) ).format( 'YYYY-MM-DD HH:mm:ss' ) }</div>
+                            <div className='w40pc inline prio'>{ opts?.attempts || '-' } | { priority } | { jobdata?.statusText || '-' }</div>
                             <div className='w20pc inline worker'>{ }</div>
                             <div className='w20pc inline worker'>{ JSON.stringify( jobdata?.container_name?.find( i => i.title === 'container_name' )?.content ) }</div>
                         </div>
