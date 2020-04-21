@@ -1,18 +1,21 @@
 {
   "name": "ac-bull-dashboard",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "index.js",
   "license": "MIT",
-  "contributors": [{
-    "name": "Mark Poepping",
-    "url": "https://www.admiralcloud.com"
-  },{
-    "name": "Tobias Rademacher",
-    "url": "https://www.admiralcloud.com"
-  }],
+  "contributors": [
+    {
+      "name": "Mark Poepping",
+      "url": "https://www.admiralcloud.com"
+    },
+    {
+      "name": "Tobias Rademacher",
+      "url": "https://www.admiralcloud.com"
+    }
+  ],
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/mmpro/ac-bull-dashboard.git"
+    "type": "git",
+    "url": "https://github.com/mmpro/ac-bull-dashboard.git"
   },
   "scripts": {
     "clean": "rm -rf node_modules dist",

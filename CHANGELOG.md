@@ -1,0 +1,17 @@
+<a name="0.0.2"></a>
+
+## [0.0.2](https://github.com/mmpro/ac-bull-dashboard/compare/v0.0.1..v0.0.2) (2020-04-21 19:09:30)
+
+
+### Bug Fix
+
+* **App:** Some minor adjustment and fixes | MP | [082b9ca9c6e7b0e81505f26aa2f9fab30b01966f](https://github.com/mmpro/ac-bull-dashboard/commit/082b9ca9c6e7b0e81505f26aa2f9fab30b01966f)    
+Fix a bug where the app crashes if opts is not available. Some minor field and var adjustments
+* **App:** Fixed hosts configuration | MP | [edab7158c4efd9695192f8fd28782b8d843831e5](https://github.com/mmpro/ac-bull-dashboard/commit/edab7158c4efd9695192f8fd28782b8d843831e5)    
+Set proper host for development
+### Chores
+
+* **App:** Prepare semantic release management | MP | [a35be5e117e3b8517d4c483cda2896ff37183649](https://github.com/mmpro/ac-bull-dashboard/commit/a35be5e117e3b8517d4c483cda2896ff37183649)    
+Prepare semantic release management and deployment
+* **Misc:** Updated package.json and add yarn.lock to source control | MP | [58cdc692f1241684e0623c2dc6693a642a0ba1ef](https://github.com/mmpro/ac-bull-dashboard/commit/58cdc692f1241684e0623c2dc6693a642a0ba1ef)    
+Updated package.json and add yarn.lock to source control
