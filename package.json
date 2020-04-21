@@ -1,8 +1,19 @@
 {
-  "name": "job-list-dashboard-frontend",
-  "version": "1.0.0",
+  "name": "ac-bull-dashboard",
+  "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
+  "contributors": [{
+    "name": "Mark Poepping",
+    "url": "https://www.admiralcloud.com"
+  },{
+    "name": "Tobias Rademacher",
+    "url": "https://www.admiralcloud.com"
+  }],
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/mmpro/ac-bull-dashboard.git"
+  },
   "scripts": {
     "clean": "rm -rf node_modules dist",
     "build": "rm -rf dist && webpack --mode=\"production\"",
@@ -32,6 +43,7 @@
     "@types/react-dom": "^16.9.6",
     "@typescript-eslint/eslint-plugin": "^2.28.0",
     "@typescript-eslint/parser": "2.0.0",
+    "ac-semantic-release": "^0.1.1",
     "css-loader": "^3.5.2",
     "eslint": "6.8.0",
     "eslint-config-standard": "14.0.1",
