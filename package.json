@@ -13,10 +13,7 @@
       "url": "https://www.admiralcloud.com"
     }
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mmpro/ac-bull-dashboard.git"
-  },
+  "repository": "https://github.com/mmpro/ac-bull-dashboard",
   "scripts": {
     "clean": "rm -rf node_modules dist",
     "build": "rm -rf dist && webpack --mode=\"production\"",
