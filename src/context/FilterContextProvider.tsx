@@ -10,6 +10,7 @@ type FilterKeysType = {
     jobListFilter?: string[],
     statusFilter?: string[],
     customerFilter?: string[],
+    mcFilter?: string[],
 }
 
 export const FilterContext = React.createContext( {
@@ -22,9 +23,10 @@ const FilterContextProvider: React.FC<Props> = ( { children } ) => {
     const [ jobListFilterState, setJobListFilterState ] = useState( [] )
     const [ statusFilterState, setStatusFilterState ] = useState( [] )
     const [ customerFilterState, setCustomerFilterState ] = useState( [] )
+    const [ mcFilterState, setMcFilterState ] = useState( [] )
 
     const setFilter = useCallback( ( filterData: FilterKeysType ) => {
-        const { jobListFilter, statusFilter, customerFilter } = filterData
+        const { jobListFilter, statusFilter, customerFilter, mcFilter } = filterData
 
         let newData = [ ...data ]
 
@@ -67,8 +69,25 @@ const FilterContextProvider: React.FC<Props> = ( { children } ) => {
             } )
         }
 
+        // MC FILTERING
+        if ( mcFilter ) {
+            setMcFilterState( mcFilter )
+        }
+
+        if ( mcFilter && mcFilter.length ) {
+            newData = newData.filter( ( nD ) => {
+                const mcId = `${ nD.data?.mediaContainerId || '' }`
+                return mcId && mcFilter.includes( mcId )
+            } )
+        } else if ( !mcFilter && mcFilterState.length ) {
+            newData = newData.filter( ( nD ) => {
+                const mcId = `${ nD.data?.mediaContainerId || '' }`
+                return mcId && mcFilterState.includes( mcId )
+            } )
+        }
+
         setShownData( newData )
-    }, [ customerFilterState, data, jobListFilterState, setShownData, statusFilterState ] )
+    }, [ customerFilterState, data, jobListFilterState, mcFilterState, setShownData, statusFilterState ] )
 
     return (
         <FilterContext.Provider value={ {

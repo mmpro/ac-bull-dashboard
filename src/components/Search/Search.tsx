@@ -11,6 +11,7 @@ export interface Props {
 }
 
 const customerSearchRegExp = new RegExp( /^c\d+$/ )
+const mcSearchRegExp = new RegExp( /^mc\d+$/ )
 
 const Search: React.FC<Props> = ( { className } ) => {
     const { setFilter } = useContext( FilterContext )
@@ -21,6 +22,11 @@ const Search: React.FC<Props> = ( { className } ) => {
             setFilter( { customerFilter: [ currentValue.replace( /^c/, '' ) ] } )
         } else {
             setFilter( { customerFilter: [] } )
+        }
+        if ( currentValue.match( mcSearchRegExp ) ) {
+            setFilter( { mcFilter: [ currentValue.replace( /^mc/, '' ) ] } )
+        } else {
+            setFilter( { mcFilter: [] } )
         }
     }
 

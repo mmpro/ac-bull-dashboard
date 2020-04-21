@@ -27,6 +27,7 @@ type ItemDataType = {
     data?: {
         mediaContainerId?: number
         mediaId?: number
+        container_name?: { content: string, title: string }[] //eslint-disable-line
         format: {
             id: number
         }

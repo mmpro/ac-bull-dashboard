@@ -199,7 +199,7 @@ const JobListItem: React.FC<Props> = ( {
                             <div className='w20pc inline last_updated'>{ moment( Math.max( timestamp, processedOn, finishedOn ) ).format( 'HH:mm:ss - DD.MM.YY' ) }</div>
                             <div className='w40pc inline prio'>{ opts.attempts || '-' } | { priority } | { jobdata?.statusText || '-' }</div>
                             <div className='w20pc inline worker'>{ }</div>
-                            <div className='w20pc inline worker'>{ 'Some name' + 1 }</div>
+                            <div className='w20pc inline worker'>{ JSON.stringify( jobdata?.container_name?.find( i => i.title === 'container_name' )?.content ) }</div>
                         </div>
                     </div>
                     <div className='progress_overview' onClick={ e => e.stopPropagation() }>
