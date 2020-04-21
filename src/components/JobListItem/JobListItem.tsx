@@ -14,7 +14,9 @@ import { statusConfig } from '../../../config/statusConfig'
 
 import JobListItemDeleteJobButton from '../JobListItemDeleteJobButton/JobListItemDeleteJobButton'
 import JobListItemRestartJobButton from '../JobListItemRestartJobButton/JobListItemRestartJobButton'
-import IndicatorCircle from '../IndicatorCircle/IndicatorCircle'
+import ProgressIndicatorCircle from './Parts/ProgressIndicatorCircle'
+
+import FailedJobMessageBox from './Parts/FailedJobMessageBox'
 
 import { DataContext } from '../../context/DataContextProvider'
 import { DataHeightsContext } from '../JobList/JobList'
@@ -28,6 +30,7 @@ export interface Props {
 }
 
 const JobListItem: React.FC<Props> = ( {
+    data,
     index,
     style,
 } ) => {
@@ -42,23 +45,26 @@ const JobListItem: React.FC<Props> = ( {
         processedOn,
         finishedOn,
         data: jobdata,
+        opts,
+        failedReason,
     } = shownData[ index ]
     const itemRef = useRef( null )
     const { listRef, itemDataState, updateItem } = useContext( DataHeightsContext )
-    const [ isOpen, setIsOpen ] = useState( itemDataState[ jobId ]?.isOpen )
+
+    // const [ isOpen, setIsOpen ] = useState( itemDataState[ jobId ]?.isOpen )
 
     useEffect( () => {
         if ( itemDataState[ jobId ]?.height !== itemRef.current.offsetHeight ) {
             updateItem( jobId, {
                 height: itemRef.current.offsetHeight,
-                isOpen,
+                // isOpen,
             } )
-            listRef.current.resetAfterIndex( index )
+            listRef.current.resetAfterIndex( 0 )
         }
-    }, [ jobId, listRef, isOpen, itemDataState, updateItem, index ] )
+    }, [ jobId, listRef, itemDataState, updateItem ] )
 
     const handleClick = () => {
-        if ( isOpen ) {
+        if ( itemDataState[ jobId ]?.isOpen ) {
             handleClose()
         } else {
             handleOpen()
@@ -66,11 +72,17 @@ const JobListItem: React.FC<Props> = ( {
     }
 
     const handleOpen = () => {
-        setIsOpen( true )
+        // setIsOpen( true )
+        updateItem( jobId, {
+            isOpen: true,
+        } )
     }
 
     const handleClose = () => {
-        setIsOpen( false )
+        // setIsOpen( false )
+        updateItem( jobId, {
+            isOpen: false,
+        } )
     }
 
     const stylez = css`
@@ -84,7 +96,7 @@ const JobListItem: React.FC<Props> = ( {
 
         .basic_content {
             position: relative;
-            height: 70px;
+            height: 90px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -114,16 +126,20 @@ const JobListItem: React.FC<Props> = ( {
         .upper_row {
             position: relative;
             box-sizing: content-box;
-            font-size: 1.3rem;
+            font-size: 1.3em;
             padding: 0 132px 0 32px;
             text-align: left;
         }
 
-        .lower_row {
+        .lower_row, .mid_row {
             text-align: left;
             padding: 0 132px 0 32px;
             font-weight: lighter;
-            font-size: 0.825rem
+            font-size: 0.825em
+        }
+
+        .mid_row {
+            margin-bottom: 8px;
         }
 
         .extra_content {
@@ -161,44 +177,42 @@ const JobListItem: React.FC<Props> = ( {
         )
     }
 
-    console.log( 'render' )
-
     return (
         <div key={ jobId } className={ cx( stylez ) } style={ style }>
             { renderStatus() }
             <div className='content' ref={ itemRef }>
-                <div className='x'>hello</div>
-                <div className='x'>hello</div>
                 <div className='basic_content' onClick={ handleClick }>
                     <div className='basic_content_inner'>
                         <div className='upper_row'>
-                            <div className='w30pc inline job_title'>{ jobList }</div>
-                            <div className='w50pc inline job_id'>{ jobId }</div>
-                            <div className='w20pc inline customer_id'>{ jobdata && jobdata.customerId }</div>
+                            <div className='w20pc inline job_title'>{ jobList }</div>
+                            <div className='w40pc inline job_id'>{ jobId }</div>
+                            <div className='w20pc inline customer_id'>{ jobdata?.customerId || '-' }</div>
+                            <div className='w20pc inline customer_id'>{ jobdata?.mediaContainerId || '-' } | { jobdata?.mediaId || '-' }</div>
+                        </div>
+                        <div className='mid_row'>
+                            <div className='w20pc inline job_type'>{ jobdata?.type }</div>
+                            <div className='w40pc inline' />
+                            <div className='w20pc inline worker'>{ }</div>
+                            <div className='w20pc inline worker'>{ jobdata?.format?.id }</div>
                         </div>
                         <div className='lower_row'>
-                            <div className='w30pc inline last_updated'>{ moment( Math.max( timestamp, processedOn, finishedOn ) ).format( 'HH:mm:ss - DD.MM.YY' ) }</div>
-                            <div className='w50pc inline prio'>{ priority }</div>
-                            {/* <div className='inline worker'>{ worker }</div> */}
+                            <div className='w20pc inline last_updated'>{ moment( Math.max( timestamp, processedOn, finishedOn ) ).format( 'HH:mm:ss - DD.MM.YY' ) }</div>
+                            <div className='w40pc inline prio'>{ opts.attempts || '-' } | { priority } | { jobdata?.statusText || '-' }</div>
+                            <div className='w20pc inline worker'>{ }</div>
+                            <div className='w20pc inline worker'>{ 'Some name' + 1 }</div>
                         </div>
                     </div>
                     <div className='progress_overview' onClick={ e => e.stopPropagation() }>
-                        <IndicatorCircle
-                          r={ 30 }
-                          animationDuration={ 0 }
-                          value={ status === 'finished' ? 100 : status === 'failed' ? 0 : parseInt( progress ) }
-                          color={ status === 'failed' ? colors.warning : status === 'finished' ? colors.success : colors.pending }
-                          circleColor={ status === 'failed' ? colors.warning : colors.unTouched }
-                          showValue={ ( status === 'finished' || status === 'failed' ) || Number.isInteger( parseInt( progress ) ) }
-                        />
+                        <ProgressIndicatorCircle status={ status } progress={ progress } />
                         <div className='actions'>
                             <JobListItemDeleteJobButton jobList={ jobList } jobId={ jobId } status={ status } />
                             <JobListItemRestartJobButton jobList={ jobList } jobId={ jobId } status={ status } />
                         </div>
                     </div>
                 </div>
+                <FailedJobMessageBox status={ status } failedReason={ failedReason } />
                 {
-                    isOpen && (
+                    itemDataState[ jobId ]?.isOpen && (
                         <div className='extra_content'>
                             <TableContainer component={ Paper }>
                                 <Table size='small' aria-label='a dense table'>
@@ -219,7 +233,7 @@ const JobListItem: React.FC<Props> = ( {
                                             <TableCell>{ processedOn && moment( processedOn ).format( 'HH:mm:ss - DD.MM.YY' ) }</TableCell>
                                             <TableCell>{ finishedOn && moment( finishedOn ).format( 'HH:mm:ss - DD.MM.YY' ) }</TableCell>
                                             <TableCell>{ finishedOn && processedOn && ( `${ finishedOn - processedOn }ms` ) }</TableCell>
-                                            <TableCell>x</TableCell>
+                                            <TableCell>{ opts?.attempts }</TableCell>
                                         </TableRow>
                                     </TableBody>
                                 </Table>

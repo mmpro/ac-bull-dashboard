@@ -16,15 +16,26 @@ type ItemDataType = {
     timestamp: number
     progress: null
     priority: number
+    failedReason?: string
     attemptsMade: number
     environment: string
-    opts: {
+    opts?: {
         attempts: number,
         delay: number,
         timestamp: number
     }
-    data: {
+    data?: {
+        mediaContainerId?: number
+        mediaId?: number
+        format: {
+            id: number
+        }
+        type?: string
         userId: number
+        statusText: string
         customerId: number
+        encoderSettings?: {
+            height: number
+        }
     }
 }

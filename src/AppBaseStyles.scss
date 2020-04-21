@@ -8,14 +8,17 @@ html, body, #root {
     display: inline-block;
 }
 
+.w20pc {
+    width: 20%;
+}
 .w30pc {
     width: 30%;
 }
+.w40pc {
+    width: 40%;
+}
 .w50pc {
     width: 50%;
-}
-.w20pc {
-    width: 20%;
 }
 
 .MuiListItem-root.Mui-selected, .MuiListItem-root.Mui-selected:hover {

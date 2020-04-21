@@ -58,6 +58,7 @@ const App: React.FC<Props> = ( { className } ) => {
 
     html, body {
         font-family: NunitoSans, Arial, Helvetica, sans-serif !important;
+        font-size: 14px;
     }
 
 `

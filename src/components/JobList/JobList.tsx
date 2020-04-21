@@ -21,9 +21,13 @@ const JobList: React.FC<Props> = ( { className } ) => {
     const { shownData } = useContext( DataContext )
     const [ itemDataState, setItemDataState ] = useState( {} )
 
+    useEffect( () => {
+        listRef.current.resetAfterIndex( 0 )
+    }, [ shownData ] )
+
     const getSize = ( index ) => {
         const jobId = shownData[ index ].jobId
-        return itemDataState[ jobId ]?.height || 70
+        return itemDataState[ jobId ]?.height || 90
     }
 
     const updateItem = useCallback( ( jobId, options ) => {
@@ -33,7 +37,7 @@ const JobList: React.FC<Props> = ( { className } ) => {
         if ( height ) {
             newState.height = height
         }
-        if ( isOpen ) {
+        if ( isOpen !== undefined ) {
             newState.isOpen = isOpen
         }
         setItemDataState( {
@@ -55,6 +59,10 @@ const JobList: React.FC<Props> = ( { className } ) => {
 
         }
 
+        .hacky_space {
+            opacity: 0;
+        }
+
         .legend{
             background-color: #29282f;
             border-bottom: 1px solid rgba( 255,255,255,0.9 );
@@ -67,9 +75,13 @@ const JobList: React.FC<Props> = ( { className } ) => {
                 font-size: 1.3rem;
             }
 
-            .lower {
+            .lower, .mid {
                 font-size: 0.825rem;
                 font-weight: lighter;
+            }
+
+            .mid {
+                margin-bottom: 8px;
             }
 
             .title_job_list {
@@ -90,21 +102,30 @@ const JobList: React.FC<Props> = ( { className } ) => {
             >
                 <div className='list_wrapper'>
                     <div className='legend'>
-                        <div className='inline w30pc title_job_list_updated_at'>
+                        <div className='inline w20pc title_job_list_updated_at'>
                             <div className='upper title_job_list'>Job List</div>
+                            <div className='mid title_job_type'>Job Type</div>
                             <div className='lower title_updated_at'>Last Updated At</div>
                         </div>
-                        <div className='inline w50pc title_job_list_updated_at'>
+                        <div className='inline w40pc title_job_list_updated_at'>
                             <div className='upper title_job_id'>Job ID</div>
-                            <div className='lower title_priority'>Priority</div>
+                            <div className='mid hacky_space'>-</div>
+                            <div className='lower title_priority'>Attempts | Priority | Status-Text</div>
                         </div>
                         <div className='inline w20pc title_job_list_updated_at'>
                             <div className='upper title_customer'>Customer Id</div>
+                            <div className='mid hacky_space'>-</div>
                             <div className='lower title_worker'>Worker</div>
+                        </div>
+                        <div className='inline w20pc title_job_list_updated_at'>
+                            <div className='upper title_customer'>MCId | MediaId</div>
+                            <div className='mid title_format_id'>Format Id</div>
+                            <div className='lower '>Media Title</div>
                         </div>
                     </div>
                     <List
                       height={ 1000 }
+                      itemData={ ( x, y ) => { console.log( 4444, x, y ) } }
                       itemCount={ shownData.length }
                       itemSize={ getSize }
                       width='100%'
