@@ -90,7 +90,7 @@ const JobListItem: React.FC<Props> = ( {
         box-sizing: border-box;
         position: relative;
         padding-left: 30px;
-        transition: 0.3s;
+        transition: 0.0s;
         overflow: hidden;
         border-bottom: 2px solid rgba( 0,0,0,0.3 );
 
@@ -238,6 +238,9 @@ const JobListItem: React.FC<Props> = ( {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
+                            <pre>
+                                { JSON.stringify( shownData[ index ], null, 4 ) }
+                            </pre>
                         </div>
                     )
                 }

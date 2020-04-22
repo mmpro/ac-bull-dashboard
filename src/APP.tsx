@@ -66,11 +66,22 @@ const App: React.FC<Props> = ( { className } ) => {
     const stylez = css`
 
         /* font-family: Avenir, Arial, Helvetica, sans-serif; */
-        margin: 8px auto;
+        margin: 0 auto;
         max-width: 1400px;
-        display: flex;
-        flex-direction: column;
+        /* display: flex;
+        flex-direction: column; */
         height: 100%;
+
+        .menu_content {
+            height: 114px;
+            padding: 8px 0;
+            box-sizing: border-box;
+        }
+
+        .joblist_content {
+            height: calc( 100% - 114px );
+            position: relative;
+        }
 
         .split_content {
             display: flex;
@@ -94,20 +105,24 @@ const App: React.FC<Props> = ( { className } ) => {
                 authorized && (
                     <DataContextProvider>
                         <FilterContextProvider>
-                            <div className='split_content'>
-                                <div className='filter'>
-                                    <JobListSelectionsJobList />
-                                    <JobListSelectionsJobStatus />
+                            <div className='menu_content'>
+                                <div className='split_content'>
+                                    <div className='filter'>
+                                        <JobListSelectionsJobList />
+                                        <JobListSelectionsJobStatus />
+                                    </div>
+                                    <div className='search'>
+                                        <Search />
+                                    </div>
                                 </div>
-                                <div className='search'>
-                                    <Search />
+                                <div className='split_content'>
+                                    <JobResultAmountFromSelection />
+                                    <ShowSpecialFunctions />
                                 </div>
                             </div>
-                            <div className='split_content'>
-                                <JobResultAmountFromSelection />
-                                <ShowSpecialFunctions />
+                            <div className='joblist_content'>
+                                <JobList />
                             </div>
-                            <JobList />
                             <JobListRequester />
                         </FilterContextProvider>
                     </DataContextProvider>

@@ -18,12 +18,24 @@ export interface Props {
 const JobList: React.FC<Props> = ( { className } ) => {
     const listWrapperRef = useRef( null )
     const listRef = useRef( null )
+    const legendRef = useRef( null )
     const { shownData } = useContext( DataContext )
     const [ itemDataState, setItemDataState ] = useState( {} )
+    const [ listHeight, setListHeight ] = useState( 0 )
 
     useEffect( () => {
         listRef.current.resetAfterIndex( 0 )
     }, [ shownData ] )
+
+    const setListHeightLocale = () => {
+        setListHeight( listWrapperRef.current.offsetHeight - legendRef.current.offsetHeight )
+    }
+
+    useEffect( () => {
+        setListHeightLocale()
+        window.addEventListener( 'resize', setListHeightLocale )
+        return () => window.removeEventListener( 'resize', setListHeightLocale )
+    }, [] )
 
     const getSize = ( index ) => {
         const jobId = shownData[ index ].jobId
@@ -48,22 +60,21 @@ const JobList: React.FC<Props> = ( { className } ) => {
 
     const stylez = css`
 
-        box-sizing: border-box;
-        display: flex;
-        flex-flow: column;
-        height: calc( 100% - 92px );
-        margin-bottom: 20px; /* i really have no idea why this is needed to show the last item correctly..  */
+        /* box-sizing: border-box; */
+        height: 100%;
+        position: relative;
 
-        .list_wapper {
-            padding-top: 80px;
-
+        .list_wrapper{
+            /* padding-top: 80px; */
+            height: 100%;
+            box-sizing: border-box;
         }
 
         .hacky_space {
             opacity: 0;
         }
 
-        .legend{
+        .legend {
             background-color: #29282f;
             border-bottom: 1px solid rgba( 255,255,255,0.9 );
             padding: 8px;
@@ -101,7 +112,7 @@ const JobList: React.FC<Props> = ( { className } ) => {
               } }
             >
                 <div className='list_wrapper'>
-                    <div className='legend'>
+                    <div className='legend' ref={ legendRef }>
                         <div className='inline w20pc title_job_list_updated_at'>
                             <div className='upper title_job_list'>Job Type</div>
                             <div className='mid title_job_type'>Job List</div>
@@ -124,8 +135,7 @@ const JobList: React.FC<Props> = ( { className } ) => {
                         </div>
                     </div>
                     <List
-                      height={ 1000 }
-                      itemData={ ( x, y ) => { console.log( 4444, x, y ) } }
+                      height={ listHeight }
                       itemCount={ shownData.length }
                       itemSize={ getSize }
                       width='100%'
