@@ -1,3 +1,12 @@
+<a name="0.1.1"></a>
+
+## [0.1.1](https://github.com/mmpro/ac-bull-dashboard/compare/v0.1.0..v0.1.1) (2020-04-28 18:13:46)
+
+
+### Bug Fix
+
+* **App:** Minor path fix | MP | [c035187be66136977a7d1e3287a472bdbcfb3867](https://github.com/mmpro/ac-bull-dashboard/commit/c035187be66136977a7d1e3287a472bdbcfb3867)    
+worker, jobUpdated and statusText are all on job.data path
 <a name="0.1.0"></a>
  
 # [0.1.0](https://github.com/mmpro/ac-bull-dashboard/compare/v0.0.3..v0.1.0) (2020-04-28 13:04:15)
