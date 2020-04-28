@@ -41,6 +41,9 @@ const JobListItem: React.FC<Props> = ( {
         jobId,
         priority,
         progress,
+        worker,
+        jobUpdated,
+        statusText,
         timestamp,
         processedOn,
         finishedOn,
@@ -193,13 +196,13 @@ const JobListItem: React.FC<Props> = ( {
                         <div className='mid_row'>
                             <div className='w20pc inline job_type'>{ jobdata?.type !== jobList ? jobList : '' }</div>
                             <div className='w40pc inline' />
-                            <div className='w20pc inline worker'>{ }</div>
+                            <div className='w20pc inline worker'>{}</div>
                             <div className='w20pc inline worker'>{ jobdata?.format?.id }</div>
                         </div>
                         <div className='lower_row'>
-                            <div className='w20pc inline last_updated'>{ moment( Math.max( timestamp, processedOn, finishedOn ) ).format( 'YYYY-MM-DD HH:mm:ss' ) }</div>
-                            <div className='w40pc inline prio'>{ opts?.attempts || '-' } | { priority } | { jobdata?.statusText || '-' }</div>
-                            <div className='w20pc inline worker'>{ }</div>
+                            <div className='w20pc inline last_updated'>{ moment( jobUpdated ).format( 'YYYY-MM-DD HH:mm:ss' ) }</div>
+                            <div className='w40pc inline prio'>{ opts?.attempts || '-' } | { priority } | { statusText || '-' }</div>
+                            <div className='w20pc inline worker'>{ worker }</div>
                             <div className='w20pc inline worker'>{ JSON.stringify( jobdata?.container_name?.find( i => i.title === 'container_name' )?.content ) }</div>
                         </div>
                     </div>

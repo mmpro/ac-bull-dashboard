@@ -12,6 +12,9 @@ type ItemDataType = {
     status: AllowedStatiTypes,
     processedOn: number
     delay: number
+    worker: string,
+    jobUpdated: number,
+    statusText: string,
     finishedOn: number
     timestamp: number
     progress: null
