@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from 'react'
 import { css, cx } from 'emotion'
 import moment from 'moment'
+import { v4 as uuidv4 } from 'uuid'
 
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -50,13 +51,14 @@ const JobListItem: React.FC<Props> = ( {
     } = shownData[ index ]
     const itemRef = useRef( null )
     const { listRef, itemDataState, updateItem } = useContext( DataHeightsContext )
+    const [ itemKey ] = useState( uuidv4() )
 
     // const [ isOpen, setIsOpen ] = useState( itemDataState[ jobId ]?.isOpen )
 
     useEffect( () => {
         if ( itemDataState[ jobId ]?.height !== itemRef.current.offsetHeight ) {
             updateItem( jobId, {
-                height: itemRef.current.offsetHeight,
+                height: parseInt( itemRef.current.offsetHeight ),
                 // isOpen,
             } )
             listRef.current.resetAfterIndex( 0 )
@@ -178,7 +180,7 @@ const JobListItem: React.FC<Props> = ( {
     }
 
     return (
-        <div key={ jobId } className={ cx( stylez ) } style={ style }>
+        <div key={ itemKey } className={ cx( stylez ) } style={ style }>
             { renderStatus() }
             <div className='content' ref={ itemRef }>
                 <div className='basic_content' onClick={ handleClick }>
