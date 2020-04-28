@@ -1,3 +1,16 @@
+<a name="0.0.3"></a>
+
+## [0.0.3](https://github.com/mmpro/ac-bull-dashboard/compare/v0.0.2..v0.0.3) (2020-04-28 09:58:51)
+
+
+### Bug Fix
+
+* **App:** unique key | TR | [510fd11cc1be560337862bcaec32f61c715f33e6](https://github.com/mmpro/ac-bull-dashboard/commit/510fd11cc1be560337862bcaec32f61c715f33e6)    
+added unique key to react item
+### Chores
+
+* **App:** Minor fix for repository in package.json | MP | [84432e28756e7de0798f628c72a8d61acd3c0e3e](https://github.com/mmpro/ac-bull-dashboard/commit/84432e28756e7de0798f628c72a8d61acd3c0e3e)    
+Minor fix for repository in package.json
 <a name="0.0.2"></a>
 
 ## [0.0.2](https://github.com/mmpro/ac-bull-dashboard/compare/v0.0.1..v0.0.2) (2020-04-21 19:09:30)
