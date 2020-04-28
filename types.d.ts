@@ -12,9 +12,6 @@ type ItemDataType = {
     status: AllowedStatiTypes,
     processedOn: number
     delay: number
-    worker: string,
-    jobUpdated: number,
-    statusText: string,
     finishedOn: number
     timestamp: number
     progress: null
@@ -40,6 +37,9 @@ type ItemDataType = {
         customerId: number
         encoderSettings?: {
             height: number
-        }
+        },
+        jobUpdated: number,
+        statusText: string,
+        worker: string
     }
 }

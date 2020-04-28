@@ -41,9 +41,6 @@ const JobListItem: React.FC<Props> = ( {
         jobId,
         priority,
         progress,
-        worker,
-        jobUpdated,
-        statusText,
         timestamp,
         processedOn,
         finishedOn,
@@ -51,6 +48,7 @@ const JobListItem: React.FC<Props> = ( {
         opts,
         failedReason,
     } = shownData[ index ]
+    console.log(51, jobdata)
     const itemRef = useRef( null )
     const { listRef, itemDataState, updateItem } = useContext( DataHeightsContext )
     const [ itemKey ] = useState( uuidv4() )
@@ -200,9 +198,9 @@ const JobListItem: React.FC<Props> = ( {
                             <div className='w20pc inline worker'>{ jobdata?.format?.id }</div>
                         </div>
                         <div className='lower_row'>
-                            <div className='w20pc inline last_updated'>{ moment( jobUpdated ).format( 'YYYY-MM-DD HH:mm:ss' ) }</div>
-                            <div className='w40pc inline prio'>{ opts?.attempts || '-' } | { priority } | { statusText || '-' }</div>
-                            <div className='w20pc inline worker'>{ worker }</div>
+                            <div className='w20pc inline last_updated'>{ moment( jobdata?.jobUpdated ).format( 'YYYY-MM-DD HH:mm:ss' ) }</div>
+                            <div className='w40pc inline prio'>{ opts?.attempts || '-' } | { priority } | { jobdata?.statusText || '-' }</div>
+                            <div className='w20pc inline worker'>{ jobdata?.worker }</div>
                             <div className='w20pc inline worker'>{ JSON.stringify( jobdata?.container_name?.find( i => i.title === 'container_name' )?.content ) }</div>
                         </div>
                     </div>
