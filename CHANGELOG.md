@@ -1,3 +1,12 @@
+<a name="0.1.0"></a>
+ 
+# [0.1.0](https://github.com/mmpro/ac-bull-dashboard/compare/v0.0.3..v0.1.0) (2020-04-28 13:04:15)
+
+
+### Feature
+
+* **App:** added info | TR | [574c02ba3e9954eb8c9f99b2e3786d74c7e31b81](https://github.com/mmpro/ac-bull-dashboard/commit/574c02ba3e9954eb8c9f99b2e3786d74c7e31b81)    
+statusText, jobUpdated, worker added as info
 <a name="0.0.3"></a>
 
 ## [0.0.3](https://github.com/mmpro/ac-bull-dashboard/compare/v0.0.2..v0.0.3) (2020-04-28 09:58:51)
