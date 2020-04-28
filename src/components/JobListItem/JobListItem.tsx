@@ -21,7 +21,6 @@ import FailedJobMessageBox from './Parts/FailedJobMessageBox'
 
 import { DataContext } from '../../context/DataContextProvider'
 import { DataHeightsContext } from '../JobList/JobList'
-import { colors } from '../../../config/colors'
 
 export interface Props {
     index?: number
